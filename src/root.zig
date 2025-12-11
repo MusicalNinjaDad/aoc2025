@@ -29,14 +29,13 @@ const Rotation = struct {
 };
 
 test "11R8" {
-    const rot = try Rotation.parse("R8");
-    try testing.expect(try turn(11, rot) == 19);
+    try testing.expect(try turn(11, try Rotation.parse("R8")) == 19);
 }
 
 test "19L19" {
-    try testing.expect(try turn(19, "L19") == 0);
+    try testing.expect(try turn(19, try Rotation.parse("L19")) == 0);
 }
 
 test "0L1" {
-    try testing.expect(try turn(0, "L1") == 99);
+    try testing.expect(try turn(0, try Rotation.parse("L1")) == 99);
 }

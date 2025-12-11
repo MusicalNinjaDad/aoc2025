@@ -43,6 +43,11 @@
                         "strings": "on"
                     }
                 },
+                "[github-actions-workflow]": {
+                    "editor.insertSpaces": true,
+                    "editor.tabSize": 2,
+                    "editor.defaultFormatter": "redhat.vscode-yaml"
+                },
                 "zig.testArgs": [
                     "build",
                     "test",

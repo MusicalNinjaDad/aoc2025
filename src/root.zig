@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-fn turn(start: i8, rotation: []const u8) i8 {
+fn turn(start: i8, rotation: []const u8) !i8 {
     var factor: i8 = undefined;
     switch (rotation[0]) {
         'R' => factor = 1,
@@ -12,18 +12,18 @@ fn turn(start: i8, rotation: []const u8) i8 {
         else => unreachable,
     }
     var clicks: i8 = undefined;
-    clicks = std.fmt.parseInt(i8, rotation[1..], 10) catch unreachable;
+    clicks = try std.fmt.parseInt(i8, rotation[1..], 10);
     return start + (factor * clicks);
 }
 
 test "11R8" {
-    try testing.expect(turn(11, "R8") == 19);
+    try testing.expect(try turn(11, "R8") == 19);
 }
 
 test "19L19" {
-    try testing.expect(turn(19, "L19") == 0);
+    try testing.expect(try turn(19, "L19") == 0);
 }
 
 test "0L1" {
-    try testing.expect(turn(0, "L1") == 99);
+    try testing.expect(try turn(0, "L1") == 99);
 }

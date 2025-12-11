@@ -39,3 +39,7 @@ test "19L19" {
 test "0L1" {
     try testing.expect(try turn(0, try Rotation.parse("L1")) == 99);
 }
+
+test "99R1" {
+    try testing.expect(try turn(99, try Rotation.parse("R1")) == 0);
+}

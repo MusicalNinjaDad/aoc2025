@@ -43,3 +43,22 @@ test "0L1" {
 test "99R1" {
     try testing.expect(try turn(99, try Rotation.parse("R1")) == 0);
 }
+
+comptime {
+    const testcases = [_]struct {
+        start: i8,
+        rotation: []const u8,
+        expected: i8,
+
+        fn run(tc: anytype) type {
+            return struct {
+                test {
+                    try testing.expectEqual(tc.expected, try turn(tc.start, try Rotation.parse(tc.rotation)));
+                }
+            };
+        }
+    }{.{ .start = 11, .rotation = "R8", .expected = 19 }};
+    for (testcases) |tc| {
+        _ = tc.run();
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+
+    "containerEnv": {
+        "WORKSPACEDIR": "${containerWorkspaceFolder}"
+    },
+
+    "postCreateCommand": "pre-commit install",
+    "postStartCommand": "pre-commit autoupdate",
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // Zig
+                "ziglang.vscode-zig",
+                // configs, docs, etc.
+                "DavidAnson.vscode-markdownlint",
+                "tamasfe.even-better-toml",
+                // Docker (for devcontainer DockerFile)
+                "ms-azuretools.vscode-containers",
+                // Coverage
+                "codecov.codecov"
+            ],
+            "settings": {
+                // shell
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/usr/bin/bash"
+                    }
+                },
+                // show pre-commit output from pre-push hooks too
+                "git.commandsToLog": [
+                    "commit",
+                    "push"
+                ],
+                "[yaml]": {
+                    "editor.insertSpaces": true,
+                    "editor.tabSize": 2,
+                    "editor.autoIndent": "advanced",
+                    "diffEditor.ignoreTrimWhitespace": false,
+                    "editor.defaultColorDecorators": "never",
+                    "editor.quickSuggestions": {
+                        "strings": "on"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -4,15 +4,8 @@
 const std = @import("std");
 const testing = std.testing;
 
-fn turn(start: i8, rotation: []const u8) !i8 {
-    var factor: i8 = undefined;
-    switch (rotation[0]) {
-        'R' => factor = 1,
-        'L' => factor = -1,
-        else => unreachable,
-    }
-    const clicks = try std.fmt.parseInt(i8, rotation[1..], 10);
-    const end = start + (factor * clicks);
+fn turn(start: i8, rotation: Rotation) !i8 {
+    const end = start + rotation.clicks;
     switch (end) {
         -127...-1 => return end + 100,
         100...127 => return end - 100,
@@ -20,8 +13,24 @@ fn turn(start: i8, rotation: []const u8) !i8 {
     }
 }
 
+const Rotation = struct {
+    clicks: i8,
+
+    pub fn parse(str: []const u8) !Rotation {
+        var factor: i8 = undefined;
+        switch (str[0]) {
+            'R' => factor = 1,
+            'L' => factor = -1,
+            else => unreachable,
+        }
+        const clicks = try std.fmt.parseInt(i8, str[1..], 10);
+        return Rotation{ .clicks = factor * clicks };
+    }
+};
+
 test "11R8" {
-    try testing.expect(try turn(11, "R8") == 19);
+    const rot = try Rotation.parse("R8");
+    try testing.expect(try turn(11, rot) == 19);
 }
 
 test "19L19" {

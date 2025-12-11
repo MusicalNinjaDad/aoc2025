@@ -2,14 +2,11 @@
     "build": {
         "dockerfile": "Dockerfile"
     },
-
     "containerEnv": {
         "WORKSPACEDIR": "${containerWorkspaceFolder}"
     },
-
     "postCreateCommand": "pre-commit install",
     "postStartCommand": "pre-commit autoupdate",
-
     "customizations": {
         "vscode": {
             "extensions": [
@@ -45,7 +42,12 @@
                     "editor.quickSuggestions": {
                         "strings": "on"
                     }
-                }
+                },
+                "zig.testArgs": [
+                    "build",
+                    "test",
+                    "-Dtest-filter=${filter}"
+                ]
             }
         }
     }

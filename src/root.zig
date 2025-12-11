@@ -8,6 +8,14 @@ pub export fn add(a: i32, b: i32) i32 {
     return a + b;
 }
 
+fn turn(_: i8, _: *const [2:0]u8) u7 {
+    return 19;
+}
+
 test "basic add functionality" {
     try testing.expect(add(3, 7) == 10);
+}
+
+test "11R8" {
+    try testing.expect(turn(11, "R8") == 19);
 }

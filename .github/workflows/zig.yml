@@ -1,0 +1,38 @@
+name: Test & Lint Zig
+
+on:
+  push:
+    paths:
+      - '**.zig'
+      - .github/workflows/zig.yml
+  pull_request:
+
+jobs:
+  skip_check:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@f75f66ce1886f00957d99748a42c724f4330bdcf #v5.3.1
+        with:
+          concurrent_skipping: 'same_content_newer'
+
+  test:
+    needs: skip_check
+    if: needs.skip_check.outputs.should_skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: mlugg/setup-zig@v2
+      - name: Test
+        run: zig build test
+  fmt:
+    needs: skip_check
+    if: needs.skip_check.outputs.should_skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: mlugg/setup-zig@v2
+      - name: fmt
+        run: zig fmt --check .

@@ -13,7 +13,13 @@ fn turn(start: i8, rotation: []const u8) !i8 {
     }
     var clicks: i8 = undefined;
     clicks = try std.fmt.parseInt(i8, rotation[1..], 10);
-    return start + (factor * clicks);
+    var end: i8 = undefined;
+    end = start + (factor * clicks);
+    switch (end) {
+        -127...-1 => return end + 100,
+        100...127 => return end - 100,
+        else => return end,
+    }
 }
 
 test "11R8" {

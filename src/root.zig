@@ -12,7 +12,7 @@ fn turn(_: i8, rotation: []const u8) u7 {
     switch (rotation[0]) {
         'R' => return 19,
         'L' => return 0,
-        else => return 127,
+        else => unreachable,
     }
 }
 

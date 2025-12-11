@@ -8,7 +8,7 @@ pub export fn add(a: i32, b: i32) i32 {
     return a + b;
 }
 
-fn turn(_: i8, _: *const [2:0]u8) u7 {
+fn turn(_: i8, _: []const u8) u7 {
     return 19;
 }
 

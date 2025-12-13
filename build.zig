@@ -62,6 +62,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+    test_generator.addImport("tested_module", lib_mod);
 
     const generated_tests = b.addTest(.{
         .root_module = test_generator,

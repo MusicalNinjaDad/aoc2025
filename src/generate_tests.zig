@@ -17,7 +17,7 @@ pub fn main() !void {
 
     const args = try std.process.argsAlloc(arena);
 
-    if (args.len > 2) fatal("expected 1 arg, got {d} ({s})", .{ args.len, args });
+    if (args.len > 2) fatal("expected 1 arg, got {d}", .{args.len});
 
     const output_dir = args[1];
     const output_filename = try std.fs.path.join(arena, &.{

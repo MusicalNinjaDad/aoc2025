@@ -44,10 +44,6 @@ test "99R1" {
     try testing.expect(try turn(99, try Rotation.parse("R1")) == 0);
 }
 
-test {
-    _ = @import("tests.zig");
-}
-
 pub const Tests = struct {
     cases: [2]TestCase = .{
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },

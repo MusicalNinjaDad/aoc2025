@@ -64,12 +64,6 @@ pub fn build(b: *std.Build) void {
     });
     test_generator_module.addImport("tested_module", lib_mod);
 
-    const generated_tests = b.addTest(.{
-        .root_module = test_generator_module,
-        .filters = test_filters,
-    });
-    const run_generated_tests = b.addRunArtifact(generated_tests);
-
     const test_generator = b.addExecutable(.{
         .name = "test_generator",
         .root_module = test_generator_module,
@@ -78,6 +72,12 @@ pub fn build(b: *std.Build) void {
     const wf = b.addWriteFiles();
     const dir = wf.getDirectory().getDisplayName();
     _ = generate_test_file.addOutputDirectoryArg(dir);
+
+    const generated_tests = b.addTest(.{
+        .root_module = test_generator_module,
+        .filters = test_filters,
+    });
+    const run_generated_tests = b.addRunArtifact(generated_tests);
 
     // Similar to creating the run step earlier, this exposes a `test` step to
     // the `zig build --help` menu, providing a way for the user to request

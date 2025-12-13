@@ -30,6 +30,10 @@ pub fn main() !void {
     };
     defer output_file.close();
 
+    const t: Tests = .{};
+    inline for (t.cases) |tc| {
+        try output_file.writeAll("test \"" ++ tc.name ++ "\"\n");
+    }
     try output_file.writeAll("foo");
     std.log.warn("created {s}", .{output_filename});
 

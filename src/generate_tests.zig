@@ -11,12 +11,27 @@ test "all2" {
 }
 
 pub fn main() !void {
-    const output_file = std.fs.cwd().createFile("gen_tests.zig", .{}) catch |err| {
-        fatal("unable to open '{}/{s}': {s}", .{ std.fs.cwd(), "gen_tests.zig", @errorName(err) });
+    var arena_state = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena_state.deinit();
+    const arena = arena_state.allocator();
+
+    const args = try std.process.argsAlloc(arena);
+
+    if (args.len > 2) fatal("expected 1 arg, got {d} ({s})", .{ args.len, args });
+
+    const output_dir = args[1];
+    const output_filename = try std.fs.path.join(arena, &.{
+        output_dir,
+        "gentests.zig",
+    });
+
+    const output_file = std.fs.cwd().createFile(output_filename, .{}) catch |err| {
+        fatal("unable to open '{s}': {s}", .{ output_filename, @errorName(err) });
     };
     defer output_file.close();
 
     try output_file.writeAll("foo");
+    std.log.warn("created {s}", .{output_filename});
 
     return std.process.cleanExit();
 }

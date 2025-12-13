@@ -75,6 +75,9 @@ pub fn build(b: *std.Build) void {
         .root_module = test_generator_module,
     });
     const generate_test_file = b.addRunArtifact(test_generator);
+    const wf = b.addWriteFiles();
+    const dir = wf.getDirectory().getDisplayName();
+    _ = generate_test_file.addOutputDirectoryArg(dir);
 
     // Similar to creating the run step earlier, this exposes a `test` step to
     // the `zig build --help` menu, providing a way for the user to request

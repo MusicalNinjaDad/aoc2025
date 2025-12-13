@@ -46,8 +46,8 @@ test "99R1" {
 
 pub const Tests = struct {
     cases: [2]TestCase = .{
-        .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19, .runFn = TestCase.run2 },
-        .{ .name = "11R8_2", .start = 11, .turn = "R8", .expected = 19, .runFn = TestCase.run2 },
+        .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
+        .{ .name = "11R8_2", .start = 11, .turn = "R8", .expected = 19 },
     },
 
     const TestCase = struct {
@@ -55,16 +55,11 @@ pub const Tests = struct {
         start: i8,
         turn: []const u8,
         expected: i8,
-        runFn: *const fn (*const TestCase) anyerror!void,
 
-        fn run2(tc: *const TestCase) !void {
+        pub fn run(tc: *const TestCase) !void {
             std.testing.log_level = .info;
             std.log.info("test {s}", .{tc.name});
             try testing.expectEqual(try turn(tc.start, try Rotation.parse(tc.turn)), tc.expected);
-        }
-
-        pub fn run(tc: *const TestCase) !void {
-            try tc.runFn(tc);
         }
     };
 };

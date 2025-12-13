@@ -41,7 +41,7 @@ pub fn main() !void {
     );
     inline for (t.cases, 0..) |tc, i| {
         try output_file.writeAll("test \"" ++ tc.name ++ "\" {\n");
-        const line2 = try std.fmt.allocPrint(arena, "try tc[{d}].run()\n", .{i});
+        const line2 = try std.fmt.allocPrint(arena, "try tc[{d}].run();\n", .{i});
         try output_file.writeAll(line2);
         try output_file.writeAll("}\n\n");
     }

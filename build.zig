@@ -3,7 +3,11 @@ const std = @import("std");
 // Although this function looks imperative, note that its job is to
 // declaratively construct a build graph that will be executed by an external
 // runner.
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
+    var arena_state = std.heap.ArenaAllocator.init(std.heap.page_allocator);
+    defer arena_state.deinit();
+    const arena = arena_state.allocator();
+
     // Standard target options allows the person running `zig build` to choose
     // what target to build for. Here we do not override the defaults, which
     // means any target is allowed, and the default is native. Other options
@@ -71,10 +75,17 @@ pub fn build(b: *std.Build) void {
     const generate_test_file = b.addRunArtifact(test_generator);
     const wf = b.addWriteFiles();
     const dir = wf.getDirectory().getDisplayName();
-    _ = generate_test_file.addOutputDirectoryArg(dir);
+    const generated_tests_dir = generate_test_file.addOutputDirectoryArg(dir);
+
+    const generated_tests_module = b.createModule(.{
+        .root_source_file = try generated_tests_dir.join(arena, "gentests.zig"),
+        .target = target,
+        .optimize = optimize,
+    });
+    generated_tests_module.addImport("tested_module", lib_mod);
 
     const generated_tests = b.addTest(.{
-        .root_module = test_generator_module,
+        .root_module = generated_tests_module,
         .filters = test_filters,
     });
     const run_generated_tests = b.addRunArtifact(generated_tests);
@@ -85,5 +96,4 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run unit tests");
     test_step.dependOn(&run_lib_unit_tests.step);
     test_step.dependOn(&run_generated_tests.step);
-    test_step.dependOn(&generate_test_file.step);
 }

@@ -31,10 +31,20 @@ pub fn main() !void {
     defer output_file.close();
 
     const t: Tests = .{};
-    inline for (t.cases) |tc| {
-        try output_file.writeAll("test \"" ++ tc.name ++ "\"\n");
+    try output_file.writeAll(
+        \\const std = @import("std");
+        \\const testing = std.testing;
+        \\const Tests = @import("tested_module").Tests;
+        \\
+        \\const t: Tests = .{};
+        \\
+    );
+    inline for (t.cases, 0..) |tc, i| {
+        try output_file.writeAll("test \"" ++ tc.name ++ "\" {\n");
+        const line2 = try std.fmt.allocPrint(arena, "try tc[{d}].run()\n", .{i});
+        try output_file.writeAll(line2);
+        try output_file.writeAll("}\n\n");
     }
-    try output_file.writeAll("foo");
     std.log.warn("created {s}", .{output_filename});
 
     return std.process.cleanExit();

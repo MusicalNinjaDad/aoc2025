@@ -44,11 +44,15 @@ pub fn main() !void {
         \\}
         \\
     );
-    inline for (t.cases, 0..) |tc, i| {
-        try output_file.writeAll("test \"" ++ tc.name ++ "\" {\n");
-        const line2 = try std.fmt.allocPrint(arena, "try t.cases[{d}].run();\n", .{i});
-        try output_file.writeAll(line2);
-        try output_file.writeAll("}\n\n");
+
+    inline for (@typeInfo(Tests).@"struct".fields) |field| {
+        const testname = field.name;
+        inline for (@field(t, testname), 0..) |tc, i| {
+            try output_file.writeAll("test \"" ++ testname ++ "/" ++ tc.name ++ "\" {\n");
+            const line2 = try std.fmt.allocPrint(arena, "try t.{s}[{d}].run();\n", .{ testname, i });
+            try output_file.writeAll(line2);
+            try output_file.writeAll("}\n\n");
+        }
     }
     std.log.info("created {s}", .{output_filename});
 

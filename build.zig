@@ -71,10 +71,13 @@ pub fn build(b: *std.Build) void {
 
     const run_generated_tests = b.addRunArtifact(generated_tests);
 
+    const generate_test_file = b.addRunArtifact(test_generator);
+
     // Similar to creating the run step earlier, this exposes a `test` step to
     // the `zig build --help` menu, providing a way for the user to request
     // running the unit tests.
     const test_step = b.step("test", "Run unit tests");
     test_step.dependOn(&run_lib_unit_tests.step);
     test_step.dependOn(&run_generated_tests.step);
+    test_step.dependOn(&generate_test_file.step);
 }

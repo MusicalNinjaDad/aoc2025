@@ -44,27 +44,20 @@ test "99R1" {
     try testing.expect(try turn(99, try Rotation.parse("R1")) == 0);
 }
 
-const Tests = struct {
+pub const Tests = struct {
     cases: [2]TestCase = .{
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
     },
 
-    pub const TestCase = struct {
+    const TestCase = struct {
         name: []const u8,
         start: i8,
         turn: []const u8,
         expected: i8,
+
+        pub fn run(tc: *const TestCase) !void {
+            try testing.expectEqual(try turn(tc.start, try Rotation.parse(tc.turn)), tc.expected);
+        }
     };
-
-    fn run(tc: TestCase) !void {
-        try testing.expectEqual(try turn(tc.start, try Rotation.parse(tc.turn)), tc.expected);
-    }
 };
-
-test "all" {
-    const t: Tests = .{};
-    inline for (t.cases) |tc| {
-        try Tests.run(tc);
-    }
-}

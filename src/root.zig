@@ -61,6 +61,8 @@ pub const Tests = struct {
         expected: i8,
 
         pub fn run(tc: *const TestCase) !void {
+            std.testing.log_level = .info;
+            std.log.info("test {s}", .{tc.name});
             try testing.expectEqual(try turn(tc.start, try Rotation.parse(tc.turn)), tc.expected);
         }
     };

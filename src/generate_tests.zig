@@ -51,6 +51,6 @@ pub fn main() !void {
 }
 
 fn fatal(comptime format: []const u8, args: anytype) noreturn {
-    std.debug.print(format, args);
+    std.log.err(format, args);
     std.process.exit(1);
 }

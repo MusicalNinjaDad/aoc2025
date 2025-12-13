@@ -45,7 +45,7 @@ pub fn main() !void {
         try output_file.writeAll(line2);
         try output_file.writeAll("}\n\n");
     }
-    std.log.warn("created {s}", .{output_filename});
+    std.log.info("created {s}", .{output_filename});
 
     return std.process.cleanExit();
 }

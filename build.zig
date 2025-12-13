@@ -57,20 +57,23 @@ pub fn build(b: *std.Build) void {
 
     const run_lib_unit_tests = b.addRunArtifact(lib_unit_tests);
 
-    const test_generator = b.createModule(.{
+    const test_generator_module = b.createModule(.{
         .root_source_file = b.path("src/generate_tests.zig"),
         .target = target,
         .optimize = optimize,
     });
-    test_generator.addImport("tested_module", lib_mod);
+    test_generator_module.addImport("tested_module", lib_mod);
 
     const generated_tests = b.addTest(.{
-        .root_module = test_generator,
+        .root_module = test_generator_module,
         .filters = test_filters,
     });
-
     const run_generated_tests = b.addRunArtifact(generated_tests);
 
+    const test_generator = b.addExecutable(.{
+        .name = "test_generator",
+        .root_module = test_generator_module,
+    });
     const generate_test_file = b.addRunArtifact(test_generator);
 
     // Similar to creating the run step earlier, this exposes a `test` step to

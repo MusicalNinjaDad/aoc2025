@@ -51,7 +51,7 @@ test {
 pub const Tests = struct {
     cases: [2]TestCase = .{
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
-        .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
+        .{ .name = "11R8_2", .start = 11, .turn = "R8", .expected = 19 },
     },
 
     const TestCase = struct {

@@ -38,6 +38,11 @@ pub fn main() !void {
         \\
         \\const t: Tests = .{};
         \\
+        \\test {
+        \\  std.testing.log_level = .info;
+        \\  std.log.info("running {s}", .{ @src().file });
+        \\}
+        \\
     );
     inline for (t.cases, 0..) |tc, i| {
         try output_file.writeAll("test \"" ++ tc.name ++ "\" {\n");

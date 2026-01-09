@@ -5,12 +5,8 @@ const std = @import("std");
 const testing = std.testing;
 
 fn turn(start: i16, rotation: Rotation) !i16 {
-    const end = start + rotation.clicks;
-    switch (end) {
-        -127...-1 => return end + 100,
-        100...127 => return end - 100,
-        else => return end,
-    }
+    const end = @rem(start + rotation.clicks, 100);
+    return end;
 }
 
 const Rotation = struct {

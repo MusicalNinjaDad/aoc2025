@@ -63,9 +63,14 @@ test "count_zeros" {
     comptime {
         const turns = .{ "L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82" };
         var start: i16 = 50;
+        var zeros: isize = 0;
         for (turns) |t| {
             start = try turn(start, try Rotation.parse(t));
+            if (start == 0) {
+                zeros += 1;
+            }
         }
         try testing.expectEqual(32, start);
+        try testing.expectEqual(3, zeros);
     }
 }

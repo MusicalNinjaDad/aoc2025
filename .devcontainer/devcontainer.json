@@ -11,6 +11,7 @@
         "vscode": {
             "extensions": [
                 // Zig
+                "vadimcn.vscode-lldb",
                 "ziglang.vscode-zig",
                 // configs, docs, etc.
                 "DavidAnson.vscode-markdownlint",

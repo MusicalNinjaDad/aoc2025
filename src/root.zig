@@ -28,26 +28,12 @@ const Rotation = struct {
     }
 };
 
-test "11R8" {
-    try testing.expect(try turn(11, try Rotation.parse("R8")) == 19);
-}
-
-test "19L19" {
-    try testing.expect(try turn(19, try Rotation.parse("L19")) == 0);
-}
-
-test "0L1" {
-    try testing.expect(try turn(0, try Rotation.parse("L1")) == 99);
-}
-
-test "99R1" {
-    try testing.expect(try turn(99, try Rotation.parse("R1")) == 0);
-}
-
 pub const Tests = struct {
-    cases: [2]TestCase = .{
+    cases: [4]TestCase = .{
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
-        .{ .name = "11R8_2", .start = 11, .turn = "R8", .expected = 19 },
+        .{ .name = "19L19", .start = 19, .turn = "L19", .expected = 0 },
+        .{ .name = "0L1", .start = 0, .turn = "L1", .expected = 99 },
+        .{ .name = "99R1", .start = 99, .turn = "R1", .expected = 0 },
     },
 
     const TestCase = struct {

@@ -29,11 +29,12 @@ const Rotation = struct {
 };
 
 pub const Tests = struct {
-    cases: [4]TestCase = .{
+    cases: [5]TestCase = .{
         .{ .name = "11R8", .start = 11, .turn = "R8", .expected = 19 },
         .{ .name = "19L19", .start = 19, .turn = "L19", .expected = 0 },
         .{ .name = "0L1", .start = 0, .turn = "L1", .expected = 99 },
         .{ .name = "99R1", .start = 99, .turn = "R1", .expected = 0 },
+        .{ .name = "overflow i8", .start = 99, .turn = "R99", .expected = 98 },
     },
 
     const TestCase = struct {

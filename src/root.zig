@@ -4,7 +4,7 @@
 const std = @import("std");
 const testing = std.testing;
 
-fn turn(start: i8, rotation: Rotation) !i8 {
+fn turn(start: i16, rotation: Rotation) !i16 {
     const end = start + rotation.clicks;
     switch (end) {
         -127...-1 => return end + 100,
@@ -39,9 +39,9 @@ pub const Tests = struct {
 
     const TestCase = struct {
         name: []const u8,
-        start: i8,
+        start: i16,
         turn: []const u8,
-        expected: i8,
+        expected: i16,
 
         pub fn run(tc: *const TestCase) !void {
             std.testing.log_level = .info;
@@ -53,7 +53,7 @@ pub const Tests = struct {
 
 test "rotate_twice" {
     const turns = [_]Rotation{ try Rotation.parse("L68"), try Rotation.parse("L30") };
-    var start: i8 = 50;
+    var start: i16 = 50;
     for (turns) |t| {
         start = try turn(start, t);
     }
@@ -63,7 +63,7 @@ test "rotate_twice" {
 test "count_zeros" {
     comptime {
         const turns = .{ "L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82" };
-        var start: i8 = 50;
+        var start: i16 = 50;
         for (turns) |t| {
             start = try turn(start, try Rotation.parse(t));
         }

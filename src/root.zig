@@ -58,3 +58,14 @@ test "rotate_twice" {
     }
     try testing.expectEqual(52, start);
 }
+
+test "count_zeros" {
+    comptime {
+        const turns = .{ "L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82" };
+        var start: i8 = 50;
+        for (turns) |t| {
+            start = try turn(start, try Rotation.parse(t));
+        }
+        try testing.expectEqual(32, start);
+    }
+}

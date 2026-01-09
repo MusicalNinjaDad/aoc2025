@@ -49,3 +49,12 @@ pub const Tests = struct {
         }
     };
 };
+
+test "rotate_twice" {
+    const turns: [2]Rotation = .{ try Rotation.parse("L68"), try Rotation.parse("L30") };
+    var start: i8 = 50;
+    for (turns) |t| {
+        start = try turn(start, t);
+    }
+    try testing.expectEqual(52, start);
+}

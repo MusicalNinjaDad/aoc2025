@@ -6,7 +6,6 @@ const testing = std.testing;
 
 fn turn(start: i16, rotation: Rotation) !i16 {
     var end = @rem(start + rotation.clicks, 100);
-    std.log.info("start: {}, clicks: {}, end:{}", .{ start, rotation.clicks, end });
     while (end < 0) {
         end += 100;
     }
